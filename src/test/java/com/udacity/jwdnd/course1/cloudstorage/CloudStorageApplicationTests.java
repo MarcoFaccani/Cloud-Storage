@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +21,8 @@ class CloudStorageApplicationTests {
 	private int port;
 
 	private WebDriver driver;
+	private JavascriptExecutor jsExecutor;
+
 	private SignUpPage signUpPage;
 	private LogInPage logInPage;
 	private HomePage homePage;
@@ -32,9 +35,11 @@ class CloudStorageApplicationTests {
 	@BeforeEach
 	public void beforeEach() {
 		this.driver = new ChromeDriver();
+		jsExecutor = (JavascriptExecutor) driver;
+
 		this.signUpPage = new SignUpPage(driver);
 		this.logInPage = new LogInPage(driver);
-		this.homePage = new HomePage(driver);
+		this.homePage = new HomePage(driver, jsExecutor);
 	}
 
 	@AfterEach
@@ -101,7 +106,7 @@ class CloudStorageApplicationTests {
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
 		driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
 		logInPage.fillLoginForm("mariorossi", "secretPassword");
-		homePage.logout();
+		homePage.getLogoutButton().click();
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 

@@ -44,12 +44,12 @@ public class HomeApplicationTests {
         //Sign up & Login
         driver.get("http://localhost:" + this.port + "/signup");
         signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
-        driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
+        signUpPage.redirectToLoginAfterSignUp();
         logInPage.fillLoginForm("mariorossi", "secretPassword");
     }
 
     @AfterEach
-    public void afterEach() {
+    public void afterEach() throws InterruptedException {
         if (this.driver != null) {
             driver.quit();
         }

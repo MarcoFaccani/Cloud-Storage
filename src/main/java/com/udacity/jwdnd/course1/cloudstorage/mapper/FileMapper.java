@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 @Component
@@ -25,4 +26,7 @@ public interface FileMapper {
 
     @Select("SELECT * FROM FILES WHERE fileId = #{fileId}")
     File retrieveFileById(int fileId);
+
+    @Select("SELECT * FROM FILES WHERE filename = #{fileName}")
+    Optional<File> retrieveFileByName(String fileName);
 }

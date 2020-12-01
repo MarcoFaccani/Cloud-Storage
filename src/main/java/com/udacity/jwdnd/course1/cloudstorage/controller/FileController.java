@@ -33,12 +33,14 @@ public class FileController {
         String errorMsg = null;
 
         User user = userMapper.getUserByUsername(principal.getName());
-        try{
-            int addedRows = fileService.save(file, user.getUserId());
-            if (addedRows <= 0) errorMsg = "There was an error uploading your file. Please try again.";
-        } catch (Exception ex) {
-            errorMsg = "There was an error uploading your file. Please try again.";
-        }
+        if (fileService.isFileNameAvailable(file.getOriginalFilename())) {
+            try{
+                int addedRows = fileService.save(file, user.getUserId());
+                if (addedRows <= 0) errorMsg = "there was an error uploading your file. Please try again.";
+            } catch (Exception ex) {
+                errorMsg = "there was an error uploading your file. Please try again.";
+            }
+        } else errorMsg = "a File with that name already exists. Please, update the file's name and try again.";
 
         if (errorMsg != null) model.addAttribute("errorMsg", errorMsg);
 

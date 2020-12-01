@@ -45,8 +45,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
-                                        <th style="width: 20%" scope="col">File Name</th>
-                                        <th style="width: 60%" scope="col">Content Type</th>
+                                        <th style="width: 80%" scope="col">File Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,7 +55,6 @@
                                         <a th:href="@{/delete/file/{fileId}(fileId=${file.fileId})}" id="delete-file-btn" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th th:text="${file.fileName}" scope="row">ExampleFile.txt</th>
-                                    <td th:text="${file.contentType}"></td>
                                 </tr>
                                 </tbody>
                             </table>

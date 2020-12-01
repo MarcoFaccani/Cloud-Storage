@@ -22,7 +22,7 @@ public class FileService {
     public int save(MultipartFile multipartFile, int userId) throws Exception{
         File file = File.builder()
                 .userId(userId)
-                .fileName(multipartFile.getName())
+                .fileName(multipartFile.getOriginalFilename())
                 .contentType(multipartFile.getContentType())
                 .fileData(multipartFile.getBytes())
                 .fileSize(String.valueOf(multipartFile.getSize()))
@@ -42,4 +42,7 @@ public class FileService {
         return fileMapper.deleteFile(noteId);
     }
 
+    public boolean isFileNameAvailable(String fileName) {
+        return fileMapper.retrieveFileByName(fileName).isEmpty();
+    }
 }

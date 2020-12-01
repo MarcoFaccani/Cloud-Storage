@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import lombok.Data;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,14 +22,17 @@ public class LogInPage {
     @FindBy(id = "submit")
     private WebElement submitButton;
 
-    public LogInPage(WebDriver driver) {
+    private JavascriptExecutor jsExecutor;
+
+    public LogInPage(WebDriver driver, JavascriptExecutor jsExecutor) {
         PageFactory.initElements(driver, this);
+        this.jsExecutor = jsExecutor;
     }
 
     void fillLoginForm(String username, String password) {
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        submitButton.click();
+        jsExecutor.executeScript("arguments[0].value='" + username + "';", usernameField);
+        jsExecutor.executeScript("arguments[0].value='" + password + "';", passwordField);
+        jsExecutor.executeScript("arguments[0].click();", submitButton);
     }
 
 

@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.junit.platform.commons.util.StringUtils;
@@ -7,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -34,8 +36,8 @@ public class HomeApplicationTests {
         this.driver = new ChromeDriver();
         jsExecutor = (JavascriptExecutor) driver;
 
-        this.signUpPage = new SignUpPage(driver);
-        this.logInPage = new LogInPage(driver);
+        this.signUpPage = new SignUpPage(driver, jsExecutor);
+        this.logInPage = new LogInPage(driver, jsExecutor);
         this.homePage = new HomePage(driver, jsExecutor);
         this.resultPage = new ResultPage(driver, jsExecutor);
 
@@ -75,6 +77,41 @@ public class HomeApplicationTests {
         resultPage.redirectToHome();
         homePage.navigateToNoteTab();
         homePage.editNote("new title", "new description");
+        Assertions.assertEquals("Result", driver.getTitle());
+        Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
+    }
+
+    @Test
+    public void uploadFile() {
+        //homePage.uploadNewFile();
+    }
+
+    @Test
+    public void addNewCredential() {
+        homePage.navigateToCredentialTab();
+        homePage.addCredential("www.test.com", "jack", "secretPassword");
+        Assertions.assertEquals("Result", driver.getTitle());
+        Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
+    }
+
+    @Test
+    public void deleteCredential() {
+        homePage.navigateToCredentialTab();
+        homePage.addCredential("www.test.com", "jack", "secretPassword");
+        resultPage.redirectToHome();
+        homePage.navigateToCredentialTab();
+        homePage.deleteCredential();
+        Assertions.assertEquals("Result", driver.getTitle());
+        Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
+    }
+
+    @Test
+    public void editCredential() {
+        homePage.navigateToCredentialTab();
+        homePage.addCredential("www.test.com", "jack", "secretPassword");
+        resultPage.redirectToHome();
+        homePage.navigateToCredentialTab();
+        homePage.editCredential("www.new.com", "newUsername", "newPassword");
         Assertions.assertEquals("Result", driver.getTitle());
         Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
     }

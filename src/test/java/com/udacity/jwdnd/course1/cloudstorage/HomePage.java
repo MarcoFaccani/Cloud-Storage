@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -10,9 +11,17 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Data
 public class HomePage {
+
+    @Autowired
+    private FileService fileService;
 
     @FindBy(id = "logout-btn")
     private WebElement logoutButton;
@@ -24,7 +33,7 @@ public class HomePage {
     private WebElement navNoteTabButton;
 
     @FindBy(id = "nav-credentials-tab")
-    private WebElement navCredentialsTabNote;
+    private WebElement navCredentialsTab;
 
     @FindBy(id = "upload-file-btn")
     private WebElement uploadFileButton;
@@ -53,12 +62,39 @@ public class HomePage {
     @FindBy(name = "noteDescription")
     private WebElement noteDescriptionInput;
 
+    @FindBy(id = "upload-file-btn")
+    private WebElement uploadFileBtn;
+
+    @FindBy(id = "add-credential-btn")
+    private WebElement addCredentialBtn;
+
+    @FindBy(id = "credential-url")
+    private WebElement credentialUrlInput;
+
+    @FindBy(id = "credential-username")
+    private WebElement credentialUsernameInput;
+
+    @FindBy(id = "credential-password")
+    private WebElement credentialPasswordInput;
+
+    @FindBy(id = "credential-save-changes-btn")
+    private WebElement credentialSaveChangesBtn;
+
+    @FindBy(id = "credential-delete-btn")
+    private WebElement credentialDeleteBtn;
+
+    @FindBy(id = "credential-edit-btn")
+    private WebElement credentialEditBtn;
+
+
     private JavascriptExecutor jsExecutor;
 
     public HomePage(WebDriver driver, JavascriptExecutor jsExecutor) {
         PageFactory.initElements(driver, this);
         this.jsExecutor = jsExecutor;
     }
+
+    void logOut() { jsExecutor.executeScript("arguments[0].click();", logoutButton); }
 
     void navigateToNoteTab() {
         jsExecutor.executeScript("arguments[0].click();", navNoteTabButton);
@@ -68,11 +104,12 @@ public class HomePage {
         jsExecutor.executeScript("arguments[0].click();", deleteNoteButton);
     }
 
-    void editNote(String title, String description) {
-        jsExecutor.executeScript("arguments[0].click();", editNoteButton);
-        jsExecutor.executeScript("arguments[0].value='" + title + "';", noteTitleInput);
-        jsExecutor.executeScript("arguments[0].value='" + description + "';", noteDescriptionInput);
-        jsExecutor.executeScript("arguments[0].click();", modalSaveNoteBtn);
+    void navigateToCredentialTab() {
+        jsExecutor.executeScript("arguments[0].click();", navCredentialsTab);
+    }
+
+    void deleteCredential() {
+        jsExecutor.executeScript("arguments[0].click();", credentialDeleteBtn);
     }
 
     void addNote(String title, String description) {
@@ -81,6 +118,34 @@ public class HomePage {
         jsExecutor.executeScript("arguments[0].value='" + title + "';", noteTitleInput);
         jsExecutor.executeScript("arguments[0].value='" + description + "';", noteDescriptionInput);
         jsExecutor.executeScript("arguments[0].click();", modalSaveNoteBtn);
+    }
+
+    void editNote(String title, String description) {
+        jsExecutor.executeScript("arguments[0].click();", editNoteButton);
+        jsExecutor.executeScript("arguments[0].value='" + title + "';", noteTitleInput);
+        jsExecutor.executeScript("arguments[0].value='" + description + "';", noteDescriptionInput);
+        jsExecutor.executeScript("arguments[0].click();", modalSaveNoteBtn);
+    }
+
+    void uploadNewFile() throws IOException {
+        Files.createFile(Paths.get("./testFile.txt"));
+        //fileService.save(Paths.get("./testFile.txt").toFile(), 1);
+    }
+
+    void addCredential(String url, String username, String password) {
+        jsExecutor.executeScript("arguments[0].click();", addCredentialBtn);
+        jsExecutor.executeScript("arguments[0].value='" + url + "';", credentialUrlInput);
+        jsExecutor.executeScript("arguments[0].value='" + username + "';", credentialUsernameInput);
+        jsExecutor.executeScript("arguments[0].value='" + password + "';", credentialPasswordInput);
+        jsExecutor.executeScript("arguments[0].click();", credentialSaveChangesBtn);
+    }
+
+    void editCredential(String url, String username, String password) {
+        jsExecutor.executeScript("arguments[0].click();", credentialEditBtn);
+        jsExecutor.executeScript("arguments[0].value='" + url + "';", credentialUrlInput);
+        jsExecutor.executeScript("arguments[0].value='" + username + "';", credentialUsernameInput);
+        jsExecutor.executeScript("arguments[0].value='" + password + "';", credentialPasswordInput);
+        jsExecutor.executeScript("arguments[0].click();", credentialSaveChangesBtn);
     }
 
 

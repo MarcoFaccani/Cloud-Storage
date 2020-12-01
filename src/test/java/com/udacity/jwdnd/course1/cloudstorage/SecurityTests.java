@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
+class SecurityTests {
 
 	@LocalServerPort
 	private int port;
@@ -37,8 +37,8 @@ class CloudStorageApplicationTests {
 		this.driver = new ChromeDriver();
 		jsExecutor = (JavascriptExecutor) driver;
 
-		this.signUpPage = new SignUpPage(driver);
-		this.logInPage = new LogInPage(driver);
+		this.signUpPage = new SignUpPage(driver, jsExecutor);
+		this.logInPage = new LogInPage(driver, jsExecutor);
 		this.homePage = new HomePage(driver, jsExecutor);
 	}
 
@@ -62,11 +62,16 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
+	public void getHomePageUnauthorized() {
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
 	public void signUpNewUser_success() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
 		Assertions.assertTrue(StringUtils.isNotBlank(signUpPage.getSuccessDiv().getText()));
-		//Assertions.assertTrue(StringUtils.isBlank(signUpPage.getErrorDiv().getText()));
 	}
 
 	@Test
@@ -74,14 +79,14 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
 		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
-		Assertions.assertTrue(StringUtils.isNotBlank(signUpPage.getErrorDiv().getText()));
+		Assertions.assertTrue(signUpPage.getErrorDiv().isDisplayed());
 	}
 
 	@Test
 	public void loginPositive() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
-		driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
+		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 
 		logInPage.fillLoginForm("mariorossi", "secretPassword");
@@ -92,12 +97,12 @@ class CloudStorageApplicationTests {
 	public void loginNegative() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
-		driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
+		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 
 		logInPage.fillLoginForm("Jack", "Aubrey");
 		Assertions.assertEquals("Login", driver.getTitle());
-		Assertions.assertTrue(StringUtils.isNotBlank(logInPage.getErrorAlert().getText()));
+		Assertions.assertTrue(logInPage.getErrorAlert().isDisplayed());
 	}
 
 	@Test
@@ -106,7 +111,7 @@ class CloudStorageApplicationTests {
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
 		driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
 		logInPage.fillLoginForm("mariorossi", "secretPassword");
-		homePage.getLogoutButton().click();
+		homePage.logOut();
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 

@@ -13,13 +13,11 @@ import java.sql.Blob;
 @NoArgsConstructor
 public class File {
 
-    //TODO: delete class
-
     private int fileId;
     private int userId;
-    private String name;
+    private String fileName;
     private String contentType;
-    private String size;
-    private Blob data;
+    private String fileSize;
+    private byte[] fileData;
 
 }

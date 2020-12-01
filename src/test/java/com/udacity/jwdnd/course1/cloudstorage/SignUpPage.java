@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import lombok.Data;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,15 +34,22 @@ public class SignUpPage {
     @FindBy(className = "alert-danger")
     private WebElement errorDiv;
 
-    public SignUpPage(WebDriver driver) {
+    private JavascriptExecutor jsExecutor;
+
+    public SignUpPage(WebDriver driver, JavascriptExecutor jsExecutor) {
         PageFactory.initElements(driver, this);
+        this.jsExecutor = jsExecutor;
+    }
+
+    void redirectToLoginAfterSignUp() {
+        jsExecutor.executeScript("arguments[0].click();", successLoginLink);
     }
 
     void fillInSignUpForm(String firstName, String lastName, String username, String password) {
-        firstNameField.sendKeys(firstName);
-        lastNameField.sendKeys(lastName);
-        usernameField.sendKeys(username);
-        passwordField.sendKeys(password);
-        signUpButton.click();
+        jsExecutor.executeScript("arguments[0].value='" + firstName + "';", firstNameField);
+        jsExecutor.executeScript("arguments[0].value='" + lastName + "';", lastNameField);
+        jsExecutor.executeScript("arguments[0].value='" + username + "';", usernameField);
+        jsExecutor.executeScript("arguments[0].value='" + password + "';", passwordField);
+        jsExecutor.executeScript("arguments[0].click();", signUpButton);
     }
 }

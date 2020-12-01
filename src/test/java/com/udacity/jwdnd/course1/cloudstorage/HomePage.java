@@ -21,6 +21,15 @@ public class HomePage {
     @FindBy(id = "delete-file-btn")
     private WebElement deleteFileButton;
 
+    @FindBy(id = "add-note-btn")
+    private WebElement addNoteButton;
+
+    @FindBy(id = "add-note-btn")
+    private WebElement editNoteButton;
+
+    @FindBy(id = "add-note-btn")
+    private WebElement deleteNoteButton;
+
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }

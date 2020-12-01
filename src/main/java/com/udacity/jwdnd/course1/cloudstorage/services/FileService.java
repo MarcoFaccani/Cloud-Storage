@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Service
 @Data
-public class UploadFileService {
+public class FileService {
 
     @Autowired
     private FileMapper fileMapper;

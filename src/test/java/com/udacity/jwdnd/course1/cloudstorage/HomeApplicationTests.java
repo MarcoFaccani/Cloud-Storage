@@ -47,7 +47,8 @@ public class HomeApplicationTests {
 
     @Test
     public void uploadFile() {
-        homePage.getUploadFileButton().click();
+        String x = "test";
+        //homePage.getUploadFileButton().click();
     }
 
 

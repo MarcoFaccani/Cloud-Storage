@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Note {
 
+    private Integer noteId;
     private Integer userId;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String salt;
-    private String password;
-
+    private String noteTitle;
+    private String noteDescription;
 }
+

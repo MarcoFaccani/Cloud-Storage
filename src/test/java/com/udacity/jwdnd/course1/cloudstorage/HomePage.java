@@ -12,6 +12,15 @@ public class HomePage {
     @FindBy(id = "logout-btn")
     private WebElement logoutButton;
 
+    @FindBy(id = "upload-file-btn")
+    private WebElement uploadFileButton;
+
+    @FindBy(id = "view-file-btn")
+    private WebElement viewFileButton;
+
+    @FindBy(id = "delete-file-btn")
+    private WebElement deleteFileButton;
+
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }

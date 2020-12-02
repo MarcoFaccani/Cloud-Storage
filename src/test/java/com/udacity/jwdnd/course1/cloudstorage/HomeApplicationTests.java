@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.*;
 import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,6 +12,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HomeApplicationTests {
@@ -41,11 +47,7 @@ public class HomeApplicationTests {
         this.homePage = new HomePage(driver, jsExecutor);
         this.resultPage = new ResultPage(driver, jsExecutor);
 
-        //Sign up & Login
-        driver.get("http://localhost:" + this.port + "/signup");
-        signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
-        signUpPage.redirectToLoginAfterSignUp();
-        logInPage.fillLoginForm("mariorossi", "secretPassword");
+        this.signUpAndLogin();
     }
 
     @AfterEach
@@ -82,8 +84,26 @@ public class HomeApplicationTests {
     }
 
     @Test
-    public void uploadFile() {
-        //homePage.uploadNewFile();
+    public void uploadFile() throws Exception {
+        try {
+            homePage.uploadNewFile("./testFile.txt");
+        } finally { Files.deleteIfExists(Paths.get("./testFile.txt")); }
+
+        Assertions.assertEquals("Result", driver.getTitle());
+        Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
+    }
+
+    @Test
+    public void deleteFile() throws Exception {
+        try {
+            homePage.uploadNewFile("./testFile2.txt");
+        } finally {
+            Files.deleteIfExists(Paths.get("./testFile2.txt"));
+        }
+        resultPage.redirectToHome();
+        homePage.deleteFile();
+        Assertions.assertEquals("Result", driver.getTitle());
+        Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
     }
 
     @Test
@@ -114,6 +134,16 @@ public class HomeApplicationTests {
         homePage.editCredential("www.new.com", "newUsername", "newPassword");
         Assertions.assertEquals("Result", driver.getTitle());
         Assertions.assertTrue(resultPage.getSuccessAlert().isDisplayed());
+    }
+
+
+    void signUpAndLogin() {
+        String username = RandomStringUtils.randomAlphabetic(15);
+        String password = RandomStringUtils.randomAlphabetic(15);
+        driver.get("http://localhost:" + this.port + "/signup");
+        signUpPage.fillInSignUpForm("Mario", "Rossi", username, password);
+        signUpPage.redirectToLoginAfterSignUp();
+        logInPage.fillLoginForm(username, password);
     }
 
 

@@ -70,22 +70,22 @@ class SecurityTests {
 	@Test
 	public void signUpNewUser_success() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
-		Assertions.assertTrue(StringUtils.isNotBlank(signUpPage.getSuccessDiv().getText()));
+		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossiii", "secretPassworddd");
+		Assertions.assertTrue(signUpPage.getAlertSuccess().isDisplayed());
 	}
 
 	@Test
 	public void signUpNewUser_usernameAlreadyTaken() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
-		signUpPage.fillInSignUpForm("Tony", "Stark", "FIAT", "FixItAgainTony");
-		Assertions.assertTrue(signUpPage.getErrorDiv().isDisplayed());
+		signUpPage.fillInSignUpForm("Jack", "Aubrey", "jackaubrey", "obrian");
+		signUpPage.fillInSignUpForm("Jack", "Aubrey", "jackaubrey", "obrian");
+		Assertions.assertTrue(signUpPage.getAlertError().isDisplayed());
 	}
 
 	@Test
 	public void loginPositive() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
+		signUpPage.fillInSignUpForm("Dr", "Maturin", "drmaturin", "doc");
 		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 
@@ -96,7 +96,7 @@ class SecurityTests {
 	@Test
 	public void loginNegative() {
 		driver.get("http://localhost:" + this.port + "/signup");
-		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
+		signUpPage.fillInSignUpForm("Shan", "taram", "shantaram", "bestbook");
 		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 

@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,9 +35,6 @@ public class HomePage {
 
     @FindBy(id = "nav-credentials-tab")
     private WebElement navCredentialsTab;
-
-    @FindBy(id = "upload-file-btn")
-    private WebElement uploadFileButton;
 
     @FindBy(id = "view-file-btn")
     private WebElement viewFileButton;
@@ -86,6 +84,9 @@ public class HomePage {
     @FindBy(id = "credential-edit-btn")
     private WebElement credentialEditBtn;
 
+    @FindBy(id = "fileUpload")
+    private WebElement fileUploadInput;
+
 
     private JavascriptExecutor jsExecutor;
 
@@ -112,6 +113,10 @@ public class HomePage {
         jsExecutor.executeScript("arguments[0].click();", credentialDeleteBtn);
     }
 
+    public void deleteFile() {
+        jsExecutor.executeScript("arguments[0].click();", deleteFileButton);
+    }
+
     void addNote(String title, String description) {
         navigateToNoteTab();
         jsExecutor.executeScript("arguments[0].click();", addNoteButton);
@@ -127,9 +132,12 @@ public class HomePage {
         jsExecutor.executeScript("arguments[0].click();", modalSaveNoteBtn);
     }
 
-    void uploadNewFile() throws IOException {
-        Files.createFile(Paths.get("./testFile.txt"));
-        //fileService.save(Paths.get("./testFile.txt").toFile(), 1);
+    void uploadNewFile(String fileName) throws Exception {
+        Files.createFile(Paths.get(fileName));
+        //String fileAbsolutePath = Paths.get("./testFile.txt").toAbsolutePath().toString();
+        //jsExecutor.executeScript("arguments[0].value='" + fileAbsolutePath + "';", fileUploadInput);
+        fileUploadInput.sendKeys(Paths.get(fileName).toAbsolutePath().toString());
+        jsExecutor.executeScript("arguments[0].click();", uploadFileBtn);
     }
 
     void addCredential(String url, String username, String password) {
@@ -147,6 +155,5 @@ public class HomePage {
         jsExecutor.executeScript("arguments[0].value='" + password + "';", credentialPasswordInput);
         jsExecutor.executeScript("arguments[0].click();", credentialSaveChangesBtn);
     }
-
 
 }

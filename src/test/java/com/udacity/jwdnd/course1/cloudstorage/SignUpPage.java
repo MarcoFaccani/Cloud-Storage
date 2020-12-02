@@ -25,14 +25,14 @@ public class SignUpPage {
     @FindBy(className = "btn-primary")
     private WebElement signUpButton;
 
-    @FindBy(className = "alert-success")
-    private WebElement successDiv;
+    @FindBy(id = "alert-success")
+    private WebElement alertSuccess;
 
     @FindBy(id = "success-login-link")
     private WebElement successLoginLink;
 
-    @FindBy(className = "alert-danger")
-    private WebElement errorDiv;
+    @FindBy(id = "alert-error")
+    private WebElement alertError;
 
     private JavascriptExecutor jsExecutor;
 
@@ -52,4 +52,5 @@ public class SignUpPage {
         jsExecutor.executeScript("arguments[0].value='" + password + "';", passwordField);
         jsExecutor.executeScript("arguments[0].click();", signUpButton);
     }
+
 }

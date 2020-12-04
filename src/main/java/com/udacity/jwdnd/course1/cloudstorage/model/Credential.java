@@ -15,5 +15,6 @@ public class Credential {
     private String username;
     private String key; //salt
     private String password;
+    private String decryptedPassword;
 
 }

@@ -142,7 +142,6 @@ public class HomeApplicationTests {
         String password = RandomStringUtils.randomAlphabetic(15);
         driver.get("http://localhost:" + this.port + "/signup");
         signUpPage.fillInSignUpForm("Mario", "Rossi", username, password);
-        signUpPage.redirectToLoginAfterSignUp();
         logInPage.fillLoginForm(username, password);
     }
 

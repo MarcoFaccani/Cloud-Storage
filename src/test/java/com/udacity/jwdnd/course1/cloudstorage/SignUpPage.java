@@ -41,10 +41,6 @@ public class SignUpPage {
         this.jsExecutor = jsExecutor;
     }
 
-    void redirectToLoginAfterSignUp() {
-        jsExecutor.executeScript("arguments[0].click();", successLoginLink);
-    }
-
     void fillInSignUpForm(String firstName, String lastName, String username, String password) {
         jsExecutor.executeScript("arguments[0].value='" + firstName + "';", firstNameField);
         jsExecutor.executeScript("arguments[0].value='" + lastName + "';", lastNameField);

@@ -22,6 +22,9 @@ public class LogInPage {
     @FindBy(id = "submit")
     private WebElement submitButton;
 
+    @FindBy(id = "signup-success")
+    private WebElement signUpSuccessMsg;
+
     private JavascriptExecutor jsExecutor;
 
     public LogInPage(WebDriver driver, JavascriptExecutor jsExecutor) {

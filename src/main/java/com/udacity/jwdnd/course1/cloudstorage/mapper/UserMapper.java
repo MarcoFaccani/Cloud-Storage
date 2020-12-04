@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 public interface UserMapper {
 
-    @Select("SELECT * FROM USERS WHERE username = #{username} ")
+    @Select("SELECT * FROM USERS WHERE username = #{username} LIMIT 1")
     User getUserByUsername(final String username);
 
     @Insert("INSERT INTO USERS (userId, firstName, lastName, userName, salt, password) VALUES (#{userId}, #{firstName}, #{lastName}, #{username}, #{salt}, #{password}) ")

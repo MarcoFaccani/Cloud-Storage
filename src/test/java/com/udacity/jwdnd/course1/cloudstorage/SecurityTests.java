@@ -71,13 +71,15 @@ class SecurityTests {
 	public void signUpNewUser_success() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossiii", "secretPassworddd");
-		Assertions.assertTrue(signUpPage.getAlertSuccess().isDisplayed());
+		Assertions.assertEquals("Login", driver.getTitle());
+		Assertions.assertTrue(logInPage.getSignUpSuccessMsg().isDisplayed());
 	}
 
 	@Test
 	public void signUpNewUser_usernameAlreadyTaken() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Jack", "Aubrey", "jackaubrey", "obrian");
+		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Jack", "Aubrey", "jackaubrey", "obrian");
 		Assertions.assertTrue(signUpPage.getAlertError().isDisplayed());
 	}
@@ -86,7 +88,6 @@ class SecurityTests {
 	public void loginPositive() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Dr", "Maturin", "drmaturin", "doc");
-		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 
 		logInPage.fillLoginForm("mariorossi", "secretPassword");
@@ -97,7 +98,6 @@ class SecurityTests {
 	public void loginNegative() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Shan", "taram", "shantaram", "bestbook");
-		signUpPage.redirectToLoginAfterSignUp();
 		Assertions.assertEquals("Login", driver.getTitle());
 
 		logInPage.fillLoginForm("Jack", "Aubrey");
@@ -109,9 +109,11 @@ class SecurityTests {
 	public void logout() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossi", "secretPassword");
-		driver.get(signUpPage.getSuccessLoginLink().getAttribute("href"));
 		logInPage.fillLoginForm("mariorossi", "secretPassword");
+		Assertions.assertEquals("Home", driver.getTitle());
 		homePage.logOut();
+		Assertions.assertEquals("Login", driver.getTitle());
+		driver.get("http://localhost:" + this.port + "/home");
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 

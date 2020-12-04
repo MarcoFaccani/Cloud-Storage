@@ -35,11 +35,12 @@ public class CredentialService {
         return addedRows;
     }
 
-    public List<Credential> getAllCredentials(Integer userId) {
+    public List<Credential> getAllCredentialsByUserId(Integer userId) {
         List<Credential> credentials =  credentialMapper.retrieveAllCredentialsByUserId(userId);
-        credentials.forEach( c -> c.setPassword(encryptionService.decryptValue(c.getPassword(), c.getKey())) );
+        credentials.forEach( c -> c.setDecryptedPassword(encryptionService.decryptValue(c.getPassword(), c.getKey())) );
         return credentials;
     }
+
 
     public int deleteCredential(int credentialId) {
         return credentialMapper.deleteCredentialById(credentialId);

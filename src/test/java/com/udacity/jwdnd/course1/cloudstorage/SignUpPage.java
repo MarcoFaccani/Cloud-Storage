@@ -22,7 +22,7 @@ public class SignUpPage {
     @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
-    @FindBy(className = "btn-primary")
+    @FindBy(id = "submit-signup")
     private WebElement signUpButton;
 
     @FindBy(id = "alert-success")

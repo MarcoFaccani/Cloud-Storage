@@ -72,7 +72,6 @@ class SecurityTests {
 		driver.get("http://localhost:" + this.port + "/signup");
 		signUpPage.fillInSignUpForm("Mario", "Rossi", "mariorossiii", "secretPassworddd");
 		Assertions.assertEquals("Login", driver.getTitle());
-		Assertions.assertTrue(logInPage.getSignUpSuccessMsg().isDisplayed());
 	}
 
 	@Test

@@ -1,6 +1,9 @@
-body { color: white}
+body {
+    color: white;
+    margin-top:4rem;
+}
 
-#signup {
+#login {
     background: url('https://images.unsplash.com/photo-1543915024-f8ef2d013ce2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80');
     background-repeat: no-repeat;
     background-size: cover;
@@ -8,7 +11,7 @@ body { color: white}
     min-height: 700px;
 }
 
-#signup .dark-overlay {
+#login .dark-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -17,21 +20,10 @@ body { color: white}
     background: rgba(0, 0, 0, 0.6);
 }
 
-#signup .signup-inner {
+#login .login-inner {
     padding-top: 150px;
 }
 
-#signup .align-self-end {
+#login .align-self-end {
     font-size: 1.2rem;
-}
-
-#signup .card-form {
-    opacity: 0.8;
-}
-
-#signup .fas {
-    color: #008ed6;
-    background: #fff;
-    padding: 5px;
-    border-radius: 5px;
 }

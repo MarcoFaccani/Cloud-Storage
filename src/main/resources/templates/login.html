@@ -5,38 +5,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/login.css}">
+
 
         <title>Login</title>
     </head>
-    <body class="p-3 mb-2 bg-light text-black">
-        <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
-            <h1 class="display-5">Login</h1>
-            <form th:action="@{/login}" action="#" method="POST">
-                <div id="error-msg" th:if="${param.error}" class="alert alert-danger">
-                    Invalid username or password
-                </div>
-                <div id="logout-msg" th:if="${param.logout}" class="alert alert-success">
-                    You have been logged out
-                </div>
-                <div id="signup-success" th:if="${success}" class="alert alert-success">
-                    You successfully signed up!
-                </div>
-                <div class="form-group">
-                    <label for="inputUsername">Username</label>
-                    <input type="input" class="form-control" name="username" id="inputUsername"
-                           placeholder="Enter Username" maxlength="20" required>
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control" name="password" id="inputPassword"
-                           placeholder="Enter Password" maxlength="20" required>
-                </div>
-                <button id="submit" type="submit" class="btn btn-primary">Login</button>
-            </form>
+    <body id="login" class="p-3 mb-2 bg-light text-black">
+    <div class="row">
+        <div class="col-lg-3 mx-auto my-5">
+            <div class="card bg-primary text-center card-form">
+                <div class="card-body">
 
-            <div class="form-group" style="margin-top: 0.5em;">
-                <label><a th:href="@{/signup}">Click here to sign up</a></label>
+                    <h3>Login</h3>
+                    <p>Please fill out this form to login</p>
+
+                    <form th:action="@{/login}" action="#" method="POST">
+                        <!-- alerts -->
+                        <div id="error-msg" th:if="${param.error}" class="form-group alert bg-danger">
+                            Invalid username or password
+                        </div>
+                        <div id="logout-msg" th:if="${param.logout}" class="form-group alert bg-success">
+                            You have been logged out
+                        </div>
+                        <!-- inputs & submit -->
+                        <div class="form-group">
+                            <input type="input" class="form-control form-control-lg" name="username" id="inputUsername" placeholder="Username" maxlength="20" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-lg" name="password" id="inputPassword" placeholder="Password" maxlength="20" required>
+                        </div>
+                        <div class="form-group">
+                            <button id="submit" type="submit" class="btn btn-block btn-outline-light">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="form-group mb-0">
+                        <label><a th:href="@{/signup}" class="text-white">Click here to sign up</a></label>
+                    </div>
+
+                </div>
             </div>
+
         </div>
+    </div>
+
     </body>
 </html>

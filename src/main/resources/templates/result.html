@@ -14,7 +14,7 @@
         <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
             <div id="success-alert" th:if="${errorMsg == null}" class="alert alert-success fill-parent">
                 <h1 class="display-5">Success</h1>
-                <span>Your changes were successfully saved. Click <a id="success-continue-link" th:href="@{/home}">here</a> to continue.</span>
+                <span>Your changes were successfully saved. Click <a id="success-continue-link" class="font-weight-bold" th:href="@{/home}">here</a> to continue.</span>
             </div>
             <div id="error-alert" th:if="${errorMsg != null}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>

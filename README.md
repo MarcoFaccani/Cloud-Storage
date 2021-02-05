@@ -9,3 +9,29 @@ The web app integrates a signup /login feature and is secured with **Spring Secu
 
 ### Testing
 The web app is tested using **Selenium**
+
+
+### Demos
+
+<details>
+  <summary>Signup / Login / Logout features</summary>
+  
+  []! (demo-signup-login-logout.gif)
+  
+</details>
+
+
+<details>
+  <summary>Credentials management features</summary>
+  
+  []! (demo-signup-login-logout.gif)
+  
+</details>
+
+
+<details>
+  <summary>Notes management features</summary>
+  
+  []! (demo-signup-login-logout.gif)
+  
+</details>

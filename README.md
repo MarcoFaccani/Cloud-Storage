@@ -24,7 +24,7 @@ The web app is tested using **Selenium**
 <details>
   <summary>Credentials management features</summary>
   
-  []! (demo-signup-login-logout.gif)
+  []! (demo-credentials.gif)
   
 </details>
 
@@ -32,6 +32,15 @@ The web app is tested using **Selenium**
 <details>
   <summary>Notes management features</summary>
   
-  []! (demo-signup-login-logout.gif)
+  []! (demo-notes.gif)
+  
+</details>
+
+
+
+<details>
+  <summary>Files management features</summary>
+  
+  []! (demo-files.gif)
   
 </details>

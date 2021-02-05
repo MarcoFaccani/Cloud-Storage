@@ -7,6 +7,8 @@ It's  a Cloud-Storage web app that includes personal information management feat
 
 The web app integrates a signup /login feature and is secured with **Spring Security**
 
+Note: the focus of this project is not the UI.
+
 ### Testing
 The web app is tested using **Selenium**
 
